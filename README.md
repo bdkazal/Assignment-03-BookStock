@@ -1,59 +1,138 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Assignment 03 --- BookStock (Laravel + MySQL)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based library management system built with **Laravel** and
+**MySQL**, allowing full CRUD operations with image upload support.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Categories CRUD
+- Authors CRUD
+- Books CRUD
+- Book cover upload (with drag & drop preview)
+- Book status (Available / Borrowed)
+- Published date support
+- Foreign key relationships:
+  - Books → Author
+  - Books → Category
+- Image storage using Laravel file system
+- Clean UI layout using Blade layouts & partials
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Project Structure
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+app/ bootstrap/ config/ database/ public/ resources/views/ routes/
+storage/
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Important Folders
 
-## Laravel Sponsors
+- resources/views/ → Blade templates (UI)
+- app/Http/Controllers/ → Controllers
+- database/migrations/ → Table structure
+- storage/app/public/ → Uploaded book covers
+- routes/web.php → Route definitions
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Database Structure
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### categories
 
-## Contributing
+- id
+- name (unique)
+- timestamps
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### authors
 
-## Code of Conduct
+- id
+- name (unique)
+- bio (text)
+- timestamps
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### books
 
-## Security Vulnerabilities
+- id
+- title
+- isbn (unique)
+- author_id (FK)
+- category_id (FK)
+- cover_image
+- description
+- published_at
+- status (available / borrowed)
+- timestamps
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Requirements
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- PHP 8.x
+- Composer
+- MySQL / MariaDB
+- Laravel 12
+- Node.js (optional, if compiling assets)
+
+---
+
+## Setup Instructions
+
+### 1) Clone Repository
+
+git clone https://github.com/bdkazal/Assignment-03-BookStock.git
+
+---
+
+### 2) Install Dependencies
+
+composer install
+
+---
+
+### 3) Configure Environment
+
+cp .env.example .env php artisan key:generate
+
+Update database credentials in .env:
+
+DB_DATABASE=bookstock DB_USERNAME=root DB_PASSWORD=
+
+---
+
+### 4) Run Migrations
+
+php artisan migrate
+
+---
+
+### 5) Create Storage Link
+
+php artisan storage:link
+
+---
+
+### 6) Run Server
+
+php artisan serve
+
+Visit: http://127.0.0.1:8000
+
+---
+
+## Notes
+
+- Cover images are stored in storage/app/public/covers
+- Old cover image is deleted when updating with a new one
+- Validation prevents duplicate ISBN and duplicate category/author
+  names
+- Edit pages correctly ignore unique validation for current record
+- Status updates correctly reflect in list view
+
+---
+
+## Author
+
+Submitted by: S M Kazal Mahmood\
+Batch: Batch 4 (Full stack Laravel Career Path with PHP, Vue.js & AI)\
+Email: kazalmahmood@gmail.com
